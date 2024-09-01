@@ -10,4 +10,9 @@ module.exports = app => {
             return rule.tips
         }
     })
+    validator.addRule('nullValue', (rule, value) => {
+        if(value == null || value.trim() === "") {
+            return rule.tips
+        }
+    })
 }

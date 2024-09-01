@@ -26,6 +26,14 @@ class AdmininfoController extends Controller {
     const {data, code, msg} = await service.admininfo.adminLogin(phone, password)
     ctx.send(data, code, msg)
   }
+  
+  async uploadLogo() {
+    const { ctx, service } = this
+    const { value } = ctx.request.body
+    ctx.validate({ value: { type: 'nullValue', tips: '请上传logo' } }, ctx.request.body)
+    await ctx.model.Admininfo.findOneAndUpdate({ logo: value })
+    ctx.send()
+}
 }
 
 module.exports = AdmininfoController;

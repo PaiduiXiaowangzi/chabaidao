@@ -6,6 +6,7 @@
 // }
 
 const path = require('path')
+require('dotenv').config();
 module.exports = app => {
     const dire = path.join(app.config.baseDir,'app/validate')
     app.loader.loadToApp(dire,'validate')
