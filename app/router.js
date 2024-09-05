@@ -3,9 +3,34 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.post('/api/admin/register',controller.admininfo.adminRegister)
-  router.post('/api/admin/login',controller.admininfo.adminLogin)
-  router.post('/api/admin/upload-logo',app.middleware.jwt(),controller.admininfo.uploadLogo)
-  router.post('/api/admin/uploadFile',controller.upload.uploadFile)
 
+  // -------------------后台管理api接口---------------------
+  //注册
+  router.post('/api/admin/register',controller.admininfo.adminRegister)
+    //登录
+  router.post('/api/admin/login',controller.admininfo.adminLogin)
+  //上产文件
+  router.post('/api/admin/uploadFile',controller.upload.uploadFile)
+  //登录更新店铺logo
+  router.post('/api/admin/upload-logo',app.middleware.jwt(),controller.admininfo.uploadLogo)
+  //更新店铺名称
+  router.post('/api/admin/upload-tradeName',app.middleware.jwt(),controller.admininfo.uploadTradeName)
+  //更新店铺介绍
+  router.post('/api/admin/upload-shopintroduction',app.middleware.jwt(),controller.admininfo.uploadShopIntroduction)
+  //更新营业时间
+  router.post('/api/admin/upload-businesshours',app.middleware.jwt(),controller.admininfo.uploadBusinessHours)
+  // 更新外卖起送价
+  router.post('/api/admin/upload-initialprice',app.middleware.jwt(),controller.admininfo.uploadInitialprice)
+  // 更新地址
+  router.post('/api/admin/upload-address', app.middleware.jwt(), controller.admininfo.uploadAddress)
+  // 新增商品类目
+  router.post('/api/admin/add-category', app.middleware.jwt(), controller.category.addCategory)
+  // 获取商品类目
+  router.get('/api/admin/get-category', app.middleware.jwt(), controller.category.getCategory)
+  // 删除商品类目
+  router.get('/api/admin/delete-category',app.middleware.jwt(),controller.category.deleteCategory)
+  // 获取所有商品类目
+  router.get('/api/admin/all-category',app.middleware.jwt(),controller.category.allCategory)
+  // 提交新增商品
+  router.post('/api/admin/add-goods', app.middleware.jwt(), controller.goods.addGoods)
 };

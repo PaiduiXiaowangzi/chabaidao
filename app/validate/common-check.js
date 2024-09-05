@@ -11,8 +11,32 @@ module.exports = app => {
         }
     })
     validator.addRule('nullValue', (rule, value) => {
-        if(value == null || value.trim() === "") {
+        if (value.trim() === '') {
             return rule.tips
         }
     })
+    validator.addRule('isArray',(rule,value) => {
+        if(!Array.isArray(value)) {
+            return '该字段必须是数组类型'
+        }else if(value.length <=0) {
+            return rule.tips
+        }else if(value[0] === '' || value[1] === '') {
+            return rule.tips
+        }
+    })
+    validator.addRule('goodsStatsIsArray',(rule,value) => {
+        if(!Array.isArray(value)) {
+            return '该字段必须是数组类型'
+        }
+    })
+    validator.addRule('goodSkuVal',(rule,value) => {
+        if(!Array.isArray(value)) {
+            return '该字段必须是数组类型'
+        }else{
+            for(item of value) {
+                if(item.price.trim() === '' || item.stock.trim() === '') return '商品的价格或库存不能为空！'
+            }
+        }
+    })
+
 }

@@ -25,7 +25,7 @@ class AdmininfoService extends Service {
       {account:false, location:false}
     ).lean()
     if(res.length > 0) {
-      const token = {admon_Token: this.ctx.generateToken(res[0].adminUid)}
+      const token = {admin_Token: this.ctx.generateToken(res[0].adminUid)}
       return {
         data: {...res[0],...token},
         msg: 'SUCCESS',

@@ -31,9 +31,53 @@ class AdmininfoController extends Controller {
     const { ctx, service } = this
     const { value } = ctx.request.body
     ctx.validate({ value: { type: 'nullValue', tips: '请上传logo' } }, ctx.request.body)
-    await ctx.model.Admininfo.findOneAndUpdate({ logo: value })
+    await ctx.model.Admininfo.findOneAndUpdate({adminUid:ctx.auth.uid},{ logo: value })
     ctx.send()
-}
+  }
+  async uploadTradeName() {
+    const { ctx, service } = this
+    const { value } = ctx.request.body
+    ctx.validate({ value: { type: 'nullValue', tips: '请上传店铺名称' } }, ctx.request.body)
+    await ctx.model.Admininfo.findOneAndUpdate({adminUid:ctx.auth.uid},{ tradeName: value })
+    ctx.send()
+  }
+  async uploadShopIntroduction() {
+    const { ctx, service } = this
+    const { value } = ctx.request.body
+    ctx.validate({ value: { type: 'nullValue', tips: '请上传店铺介绍' } }, ctx.request.body)
+    await ctx.model.Admininfo.findOneAndUpdate({adminUid:ctx.auth.uid},{ shopIntroduction: value })
+    ctx.send()
+  }
+  // 营业时间
+  async uploadBusinessHours() {
+    const { ctx, service } = this
+    const { time } = ctx.request.body
+    ctx.validate({ time: { type: 'isArray', tips: '请设置营业时间' } }, ctx.request.body)
+    await ctx.model.Admininfo.findOneAndUpdate({adminUid:ctx.auth.uid},{$set:{businessHours: time}})
+    ctx.send()
+  }
+  // 外卖起送价
+  async uploadInitialprice() {
+    const { ctx, service } = this
+    const { value } = ctx.request.body
+    ctx.validate({ value: { type: 'nullValue', tips: '请设置起送价' } }, ctx.request.body)
+    await ctx.model.Admininfo.findOneAndUpdate({adminUid:ctx.auth.uid},{initialPrice:value})
+    ctx.send()
+  }
+  // 地址
+  async uploadAddress() {
+    const { ctx, service } = this
+    const { address, location } = ctx.request.body
+    ctx.validate({
+      address: {type:'nullValue',tips:'请设置店铺地址'},
+      location: {type:'isArray',tips:'请设置店铺地址'}
+    },
+    ctx.request.body)
+  await ctx.model.Admininfo.findOneAndUpdate({adminUid:ctx.auth.uid},
+    {address,$set:{location}})
+    ctx.send()
+  }
+  
 }
 
 module.exports = AdmininfoController;
