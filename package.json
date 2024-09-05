@@ -9,6 +9,7 @@
   "dependencies": {
     "ali-oss": "^6.21.0",
     "basic-auth": "^2.0.1",
+    "dotenv": "^16.4.5",
     "egg": "^3.17.5",
     "egg-cors": "^3.0.1",
     "egg-mongoose": "^4.0.1",

@@ -33,4 +33,8 @@ module.exports = app => {
   router.get('/api/admin/all-category',app.middleware.jwt(),controller.category.allCategory)
   // 提交新增商品
   router.post('/api/admin/add-goods', app.middleware.jwt(), controller.goods.addGoods)
+  // 获取商品数据
+  router.get('/api/admin/get-goods', app.middleware.jwt(), controller.goods.getGoods)
+  // 删除商品
+  router.get('/api/admin/delete-goods', app.middleware.jwt(), controller.goods.deleteGoods)
 };

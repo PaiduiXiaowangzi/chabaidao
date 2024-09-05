@@ -35,6 +35,30 @@ class GoodsController extends Controller {
     )
     ctx.send()
   }
+  // 获取商品数据
+  async getGoods() {
+    const {service, ctx} = this
+    const { page } = ctx.query
+    ctx.validate({
+      page:{type:'nullValue', tips:'分页值不能为空'}
+    },ctx.query)
+    const res = await service.goods.getGoods(page)
+    ctx.send(res)
+  }
+
+  // 删除单个商品
+  async deleteGoods() {
+    const {ctx, service}= this
+    const { _id } = ctx.query
+    ctx.validate({
+      _id:{type:'nullValue', tips:'商品_id不能为空'}
+    },ctx.query)
+    const db = ctx.model.Goods
+    await db.findByIdAndDelete({_id})
+    const skudb = ctx.model.Skulist
+    await skudb.deleteMany({goods_id:_id})
+    ctx.send()
+  }
 }
 
 module.exports = GoodsController;
