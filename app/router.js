@@ -37,4 +37,11 @@ module.exports = app => {
   router.get('/api/admin/get-goods', app.middleware.jwt(), controller.goods.getGoods)
   // 删除商品
   router.get('/api/admin/delete-goods', app.middleware.jwt(), controller.goods.deleteGoods)
+
+  // 提交推荐商品
+  router.post('/api/admin/add-recommend', app.middleware.jwt(), controller.recommendGoods.addRecommend)
+  // 获取推荐商品列表
+  router.get('/api/admin/get-recommend', app.middleware.jwt(), controller.recommendGoods.getRecommend)
+  // 删除推荐商品
+  router.get('/api/admin/delete-recommend', app.middleware.jwt(), controller.recommendGoods.deleteRecommend)
 };
