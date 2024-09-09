@@ -1,0 +1,66 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "订单"
+			}
+		},
+		{
+			"path": "pages/ordersystem/ordersystem",
+			"style": {
+				"navigationBarTitleText": "点单"
+			}
+		},
+		{
+			"path": "pages/personal/personal",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color":"#c4c4c5",
+		"selectedColor":"#1d49c4",
+		"backgroundColor":"#fefefe",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath":"static/tab/shouye-a.png",
+				"selectedIconPath":"static/tab/shouye-b.png"
+			},
+			{
+				"pagePath": "pages/order/order",
+				"text": "订单",
+				"iconPath":"static/tab/dingdan-a.png",
+				"selectedIconPath":"static/tab/dingdan-b.png"
+			},
+			{
+				"pagePath": "pages/ordersystem/ordersystem",
+				"text": "点单",
+				"iconPath":"static/tab/diandan-a.png",
+				"selectedIconPath":"static/tab/diandan-b.png"
+			},
+			{
+				"pagePath": "pages/personal/personal",
+				"text": "我的",
+				"iconPath":"static/tab/wode-a.png",
+				"selectedIconPath":"static/tab/wode-b.png"
+			}
+		]
+	}
+}
