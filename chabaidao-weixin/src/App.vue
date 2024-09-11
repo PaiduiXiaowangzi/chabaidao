@@ -1,5 +1,13 @@
 <template></template>
 <script setup lang="ts">
+    import { onLaunch } from '@dcloudio/uni-app'
+    onLaunch(async() => {
+        let getMenu = uni.getStorageSync('MenuButton')
+        if(!getMenu) {
+            const res = uni.getMenuButtonBoundingClientRect()
+            uni.setStorageSync('MenuButton', res)
+        }
+    })
 
 </script>
 <style>

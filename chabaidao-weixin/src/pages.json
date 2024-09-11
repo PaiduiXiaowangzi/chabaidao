@@ -8,15 +8,17 @@
 			}
 		},
 		{
-			"path": "pages/order/order",
+			"path": "pages/ordersystem/ordersystem",
 			"style": {
-				"navigationBarTitleText": "订单"
+				"navigationBarTitleText": "点单",
+				"navigationStyle": "custom"
+
 			}
 		},
 		{
-			"path": "pages/ordersystem/ordersystem",
+			"path": "pages/order/order",
 			"style": {
-				"navigationBarTitleText": "点单"
+				"navigationBarTitleText": "订单"
 			}
 		},
 		{

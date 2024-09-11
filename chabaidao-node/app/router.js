@@ -4,7 +4,7 @@
 module.exports = app => {
   const { router, controller } = app;
 
-  // -------------------后台管理api接口---------------------
+// -------------------后台管理api接口---------------------
   //注册
   router.post('/api/admin/register',controller.admininfo.adminRegister)
     //登录
@@ -44,4 +44,12 @@ module.exports = app => {
   router.get('/api/admin/get-recommend', app.middleware.jwt(), controller.recommendGoods.getRecommend)
   // 删除推荐商品
   router.get('/api/admin/delete-recommend', app.middleware.jwt(), controller.recommendGoods.deleteRecommend)
+
+
+// ------------------小程序接口------------------
+ 
+  // 获取小程序首页轮播数据
+    router.get('/api/wx/get-swiper', controller.wxHomepage.getSwiper)
+    
+
 };

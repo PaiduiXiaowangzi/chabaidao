@@ -1,6 +1,6 @@
 <template>
     <view class="swiper-view">
-      <swiper autoplay circular :current="currentIndex" @change="changeCurrent">
+      <swiper class="swiper-img" autoplay circular :current="currentIndex" @change="changeCurrent">
         <swiper-item v-for="(item, index) in swiperList" :key="item">
           <image
             :src="item.carouselImages"
@@ -35,15 +35,17 @@
   </template>
   
 <script setup lang="ts">
+import type {SwiperItem} from '@/types/indext'
 import {ref} from 'vue'
-
-
+import {onLoad} from '@dcloudio/uni-app'
+import { request } from '@/api/request'
+onLoad(async() => {
+  const res = await request<SwiperItem[]>('/get-swiper')
+  swiperList.value = res.data
+})
 
 // 顶部轮播图
-const swiperList = ref([
-{'carouselImages':"https://chabaidao66.oss-cn-guangzhou.aliyuncs.com/chabaidao661725526296850267.jpg"},
-{'carouselImages':"https://chabaidao66.oss-cn-guangzhou.aliyuncs.com/chabaidao661725849551390742.jpg"}
-])
+const swiperList = ref<SwiperItem[]>([])
 
 // 自定义指示点的滚动下标值
 const currentIndex = ref(0)
