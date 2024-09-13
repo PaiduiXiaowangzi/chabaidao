@@ -8,12 +8,12 @@
       <view class="merchant-store">
         <view class="address-view">
           <image src="/static/xing.png" mode="widthFix"/>
-          <text></text>
+          <text>{{ MerchanInfo().address }}</text>
           <text></text>
         </view>
         <view class="distance-view">
           <image src="/static/weizhi.png" mode="widthFix"/>
-          <text>商家距离你</text>
+          <text>商家距离你{{distance}}</text>
         </view>
       </view>
     </view>
@@ -21,20 +21,31 @@
 </template>
 
 <script setup lang="ts">
+import {MerchanInfo}  from '@/api/menubutton'
 import { ref, getCurrentInstance } from 'vue'
 import { MenuButton } from '@/api/menubutton'
 import {onLoad} from '@dcloudio/uni-app'
 const spacingHeight = ref('')
 const istance = getCurrentInstance()
 onLoad(() => {
-    const query:any = uni.createSelectorQuery().in(istance);
-    query
-    .select(".search-view")
-    .boundingClientRect((res:{height:number}) => {
-        spacingHeight.value = res.height + 'px'
-    })
-    .exec();
-    })
+  const query:any = uni.createSelectorQuery().in(istance);
+  query
+  .select(".search-view")
+  .boundingClientRect((res:{height:number}) => {
+      spacingHeight.value = res.height + 'px'
+  })
+  .exec();
+})
+
+// 接收父组件参数
+withDefaults(
+  defineProps<{
+    distance:string
+  }>(),
+  {
+    distance:'0米'
+  }
+)
 </script>
 
 <style>

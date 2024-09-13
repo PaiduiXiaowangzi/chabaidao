@@ -54,7 +54,13 @@
         "setting" : {
             "urlCheck" : false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission": {
+            "scope.userLocation": {
+            "desc": "授予小程序位置权限？" // 高速公路行驶持续后台定位
+            }
+        },
+        "requiredPrivateInfos":["getLocation"]
     },
     "mp-alipay" : {
         "usingComponents" : true

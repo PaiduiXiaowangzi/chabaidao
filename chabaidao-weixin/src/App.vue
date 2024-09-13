@@ -1,11 +1,19 @@
 <template></template>
 <script setup lang="ts">
     import { onLaunch } from '@dcloudio/uni-app'
+    import { request } from '@/api/request'
     onLaunch(async() => {
+        // 获取胶囊按钮位置
         let getMenu = uni.getStorageSync('MenuButton')
         if(!getMenu) {
             const res = uni.getMenuButtonBoundingClientRect()
             uni.setStorageSync('MenuButton', res)
+        }
+        // 获取商家信息
+        let cache = uni.getStorageSync('merchanInfo')
+        if(!cache) {
+            const merchanInfoRes:any = await request('/get-merchantinfo')
+            uni.setStorageSync('merchanInfo', merchanInfoRes.data[0])
         }
     })
 

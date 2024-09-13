@@ -85,6 +85,10 @@ module.exports = appInfo => {
     mode: 'file',
     fileSize: '1mb',
   }
+    // 腾讯地图key
+    config.wxqq = {
+      key: process.env.WXQQ_KEY
+    }
 
   // add your user config here
   const userConfig = {

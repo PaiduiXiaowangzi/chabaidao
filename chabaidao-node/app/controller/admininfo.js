@@ -69,14 +69,14 @@ class AdmininfoController extends Controller {
     const { ctx, service } = this
     const { address, location } = ctx.request.body
     ctx.validate({
-      address: {type:'nullValue',tips:'请设置店铺地址'},
-      location: {type:'isArray',tips:'请设置店铺地址'}
+        address: { type: 'nullValue', tips: '请设置店铺地址' },
+        location: { type: 'isArray', tips: '请设置店铺地址' }
     },
-    ctx.request.body)
-  await ctx.model.Admininfo.findOneAndUpdate({adminUid:ctx.auth.uid},
-    {address,$set:{location}})
+        ctx.request.body)
+    await ctx.model.Admininfo.findOneAndUpdate({ adminUid: ctx.auth.uid },
+        { address, $set: { location } })
     ctx.send()
-  }
+}
   
 }
 

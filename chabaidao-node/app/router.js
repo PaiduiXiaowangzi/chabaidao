@@ -49,7 +49,9 @@ module.exports = app => {
 // ------------------小程序接口------------------
  
   // 获取小程序首页轮播数据
-    router.get('/api/wx/get-swiper', controller.wxHomepage.getSwiper)
-    
-
+  router.get('/api/wx/get-swiper', controller.wxHomepage.getSwiper)
+  // 小程序获取商家信息
+  router.get('/api/wx/get-merchantinfo', controller.wxChooseAmenu.getMerchantInfo)
+  //  计算用户和商家之间的距离
+  router.get('/api/wx/distance-calculator', controller.wxChooseAmenu.distanceCalculator)
 };
