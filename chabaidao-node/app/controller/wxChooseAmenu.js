@@ -21,6 +21,17 @@ async distanceCalculator() {
   const { distance, status, msg, error } = await service.wxChooseAmenu.distanceCalculator(latitude, longitude)
   ctx.send({ distance }, status, msg, error)
 }
+
+
+// 获取商品分类和所有商品
+async allGoods() {
+  const {ctx, service} = this
+  const res = await service.wxChooseAmenu.allGoods()
+  ctx.send(res)
 }
+}
+
+
+
 
 module.exports = WxChooseAmenuController;

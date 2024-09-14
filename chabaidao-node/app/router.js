@@ -54,4 +54,6 @@ module.exports = app => {
   router.get('/api/wx/get-merchantinfo', controller.wxChooseAmenu.getMerchantInfo)
   //  计算用户和商家之间的距离
   router.get('/api/wx/distance-calculator', controller.wxChooseAmenu.distanceCalculator)
+  //  获取分类和所有商品数据
+  router.get('/api/wx/all-goods', controller.wxChooseAmenu.allGoods)
 };

@@ -34,6 +34,26 @@ class WxChooseAmenuService extends Service {
             return { distance: [], status: 500, msg: '出错', error: res.data }
         }
     }
+    // 获取商品类目和所有商品
+    async allGoods() {
+        const db = this.ctx.model.Category
+        const res = await db.aggregate([
+            {
+                $lookup:{
+                    from: 'Goods',
+                    localField:'_id',
+                    foreignField:'category_id',
+                    as:'category'
+                }
+            },
+            {
+                $match: {
+                    category: {$ne:[]}
+                }
+            }
+        ])
+        return res
+    }
 }
 
 module.exports = WxChooseAmenuService;
