@@ -3,7 +3,7 @@
   <Toparea :distance="merchantDistance.distance" />
   <!-- 左边的滑动栏 -->
   <scroll-view scroll-y class="scroll-height-left" enhanced enable-passive :show-scrollbar="false">
-    <view class="left-goods" v-for="(item, index) in allGoods" :key="item._id">
+    <view class="left-goods" :class="{activeStyle: index === dynamiIndex}" v-for="(item, index) in allGoods" :key="item._id" @click="anchorConnection(item._id,index)">
       <image
         :src="item.icon"
         mode="widthFix"
@@ -13,7 +13,7 @@
   </scroll-view>
 
   <!-- 右边的滑动栏 -->
-  <scroll-view scroll-y enhanced enable-passive :show-scrollbar="false" class="scroll-height-right">
+  <scroll-view scroll-y enhanced enable-passive :show-scrollbar="false" class="scroll-height-right" :scroll-into-view="subElementId" @scroll="scrollHeight">
     <view class="item-goods" v-for="(item, index) in allGoods" :key="item._id" :id="`A${item._id}`" >
       <text class="category-title">{{ item.categoryName }}</text>
       <view class="goods-infor" v-for="(item_a, index_a) in item.category" :key="item_a._id">
@@ -115,12 +115,54 @@ const rangeQuery = async (latitude:number, longitude:number) => {
   async function allGoodsData(){
     try {
       const res = await request<AllGoods[]>('/all-goods')
-      console.log(res)
+      // console.log(res)
       allGoods.value = res.data
+      setTimeout(() => {
+        itemGoodsHeight()
+      }, 200);
     } catch (error) {
       console.log(error)
     }
   }
+
+  // 计算右边的高度
+  const itemHeight = ref<number[]>([])
+  const itemGoodsHeight = () => {
+  let totalHeight = 0
+  const query = uni.createSelectorQuery()
+  query.selectAll('.item-goods').boundingClientRect()
+  query.exec((heightData:{height:number}[][]) => {
+    heightData[0].forEach(item => {
+      totalHeight += item.height
+      itemHeight.value.push(totalHeight)
+    })
+  })
+
+  }
+  // 点击左边分类滚动右边
+  const dynamiIndex = ref(0)
+  const subElementId = ref('')
+
+  const anchorConnection = (id:string, index:number) => {
+    dynamiIndex.value = index
+    subElementId.value = `A${id}`
+    // console.log(itemHeight.value)
+    setTimeout(() => {
+      subElementId.value = ''
+    }, 200);
+  }
+
+  // 滚动右边控制左边
+  function scrollHeight(event:{detail:{scrollTop:number}}){
+    // console.log(itemHeight.value)
+      const scrollTop = event.detail.scrollTop
+      if(scrollTop >= itemHeight.value[dynamiIndex.value]){
+        dynamiIndex.value += 1
+      }else if(scrollTop < itemHeight.value[dynamiIndex.value - 1]){
+        dynamiIndex.value -= 1
+      }
+    }
+
 </script>
 
 <style scoped>
