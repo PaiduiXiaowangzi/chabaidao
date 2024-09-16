@@ -56,4 +56,6 @@ module.exports = app => {
   router.get('/api/wx/distance-calculator', controller.wxChooseAmenu.distanceCalculator)
   //  获取分类和所有商品数据
   router.get('/api/wx/all-goods', controller.wxChooseAmenu.allGoods)
+  //  获取某个商品的sku列表
+  router.get('/api/wx/goods-sku-list', controller.wxChooseAmenu.goodsSkuList)
 };

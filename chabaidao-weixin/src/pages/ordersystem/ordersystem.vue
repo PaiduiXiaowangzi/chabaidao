@@ -16,7 +16,7 @@
   <scroll-view scroll-y enhanced enable-passive :show-scrollbar="false" class="scroll-height-right" :scroll-into-view="subElementId" @scroll="scrollHeight">
     <view class="item-goods" v-for="(item, index) in allGoods" :key="item._id" :id="`A${item._id}`" >
       <text class="category-title">{{ item.categoryName }}</text>
-      <view class="goods-infor" v-for="(item_a, index_a) in item.category" :key="item_a._id">
+      <view class="goods-infor" v-for="(item_a, index_a) in item.category" :key="item_a._id" @click="selectGoods(index, index_a, item._id, item_a._id)">
         <image :src="item_a.goods_image" mode="aspectFill"/>
         <view class="product-name">
           <text class="goods-name">{{ item_a.goods_name }}</text>
@@ -56,6 +56,7 @@ import{ onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import type { Distance, AllGoods } from'@/types/ordersystem'
 import { request } from '@/api/request'
+import {toRaw} from 'vue'
 onLoad(() => {
   locate()
   allGoodsData()
@@ -153,7 +154,7 @@ const rangeQuery = async (latitude:number, longitude:number) => {
   }
 
   // 滚动右边控制左边
-  function scrollHeight(event:{detail:{scrollTop:number}}){
+  const  scrollHeight = (event:{detail:{scrollTop:number}}) => {
     // console.log(itemHeight.value)
       const scrollTop = event.detail.scrollTop
       if(scrollTop >= itemHeight.value[dynamiIndex.value]){
@@ -161,6 +162,15 @@ const rangeQuery = async (latitude:number, longitude:number) => {
       }else if(scrollTop < itemHeight.value[dynamiIndex.value - 1]){
         dynamiIndex.value -= 1
       }
+    }
+
+    // 点击跳转到商品详情页
+    function selectGoods(index:number,index_a:number,fatherId:string,sonId:string){
+      const theGoods = allGoods.value[index].category[index_a]
+      const str = JSON.stringify({theGoods,fatherId,sonId})
+      uni.navigateTo({
+        url:'/pages/specifications/specifications?goods=' + str
+      })
     }
 
 </script>

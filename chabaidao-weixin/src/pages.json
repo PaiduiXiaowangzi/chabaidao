@@ -12,7 +12,6 @@
 			"style": {
 				"navigationBarTitleText": "点单",
 				"navigationStyle": "custom"
-
 			}
 		},
 		{
@@ -26,6 +25,13 @@
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
+		},
+		{
+			"path": "pages/specifications/specifications",
+			"style": {
+				"navigationBarTitleText": "specifications",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
@@ -35,33 +41,33 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
-		"color":"#c4c4c5",
-		"selectedColor":"#1d49c4",
-		"backgroundColor":"#fefefe",
+		"color": "#c4c4c5",
+		"selectedColor": "#1d49c4",
+		"backgroundColor": "#fefefe",
 		"list": [
 			{
 				"pagePath": "pages/index/index",
 				"text": "首页",
-				"iconPath":"static/tab/shouye-a.png",
-				"selectedIconPath":"static/tab/shouye-b.png"
+				"iconPath": "static/tab/shouye-a.png",
+				"selectedIconPath": "static/tab/shouye-b.png"
 			},
 			{
 				"pagePath": "pages/order/order",
 				"text": "订单",
-				"iconPath":"static/tab/dingdan-a.png",
-				"selectedIconPath":"static/tab/dingdan-b.png"
+				"iconPath": "static/tab/dingdan-a.png",
+				"selectedIconPath": "static/tab/dingdan-b.png"
 			},
 			{
 				"pagePath": "pages/ordersystem/ordersystem",
 				"text": "点单",
-				"iconPath":"static/tab/diandan-a.png",
-				"selectedIconPath":"static/tab/diandan-b.png"
+				"iconPath": "static/tab/diandan-a.png",
+				"selectedIconPath": "static/tab/diandan-b.png"
 			},
 			{
 				"pagePath": "pages/personal/personal",
 				"text": "我的",
-				"iconPath":"static/tab/wode-a.png",
-				"selectedIconPath":"static/tab/wode-b.png"
+				"iconPath": "static/tab/wode-a.png",
+				"selectedIconPath": "static/tab/wode-b.png"
 			}
 		]
 	}

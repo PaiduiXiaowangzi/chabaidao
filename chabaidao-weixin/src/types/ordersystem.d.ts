@@ -41,3 +41,12 @@ export type AllGoods = {
     _id:string
     category:Category[]
 }
+// 商品sku列表
+export type GoodsSku = {
+    goods_id: string
+    price: number
+    stock: number
+    _id: string
+    skuId:string[]
+    specs:string[]
+}
