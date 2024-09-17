@@ -30,18 +30,22 @@
         <view class="select-goods price-padd">
             <view class="shopping-price">¥{{ goodsSkuPrice }}</view>
             <view class="select-goods single-goods">
-                <image src="/static/jian-goods.png" mode="widthFix" />
-                <text ></text>
-                <image src="/static/jia-goods.png" mode="widthFix"/>
+                <image src="/static/jian-goods.png" mode="widthFix" @click="minusQuantity"/>
+                <text >{{ orderQuantity }}</text>
+                <image src="/static/jia-goods.png" mode="widthFix" @click="addQuantity"/>
             </view>
         </view>
         <view class="selected-option">
             <text>
             </text>
         </view>
-        <block>
-            <button>加入购物车</button>
-            <!-- <button >已售罄</button> -->
+        <block v-for="(item,index) in goodsData" :key="item._id">
+            <button
+                v-if="item.goods_stock > 0"
+                :disabled="buttonStyle.disable"
+                :style="{'background-color':buttonStyle.back, 'color':buttonStyle.color}"
+            >加入购物车</button>
+            <button v-else>已售罄</button>
         </block>
     </view>
     <view style="height: 300rpx;"></view>
@@ -86,17 +90,10 @@ interface SkuData{
         sku:{name:string,statsId:string}
     }
 const selectedStats = ref<SkuData[]>([])
-// 用户点击分类按钮时逻辑belike
 
-// 形参结构：
-// {
-//   "name": "颜色",
-//   "selected": "001", // 当前选中的子属性 ID（例如红色）
-//   "subAttributes": [
-//     { "_id": "001", "name": "红色", "disabled": false },
-//     { "_id": "002", "name": "蓝色", "disabled": false }
-//   ]
-// }
+
+
+// 用户点击分类按钮时逻辑belike
 const selectSpec = (item_a:GoodsStat, selectedId:string, statsId:string, nameId:string, sonName:string ) => {
     item_a.selected = item_a.selected == selectedId ? '' : selectedId
     let index = selectedStats.value.findIndex(item => item._id === nameId)
@@ -119,6 +116,99 @@ const selectSpec = (item_a:GoodsStat, selectedId:string, statsId:string, nameId:
         }
     }
 }
+// 观察库存是否充足，不足时禁用按钮
+watch(selectedStats,(newState) => {
+    if(newState.length >= goodsData.value[0].goods_stats.length - 1) {
+        resetOption()
+        skuListData.value.forEach(sku => {
+            if(sku.stock <= 0) {
+                let skuValueIds = sku.skuId
+                const mostValuesSelected = skuValueIds.filter(id => newState.some(selection =>  selection.sku.statsId === id)).length >= goodsData.value[0].goods_stats.length -1
+                if(mostValuesSelected) {
+                    const remainingValueId = skuValueIds.find(id => !newState.some(selection => selection.sku.statsId === id))
+                    goodsData.value[0].goods_stats.forEach(attr => {
+                        attr.subAttributes.forEach(value => {
+                            if(value.statesId === remainingValueId) {
+                                value.disable = true
+                            }
+                        })
+                    })
+                }else {
+                    resetOption()
+                }
+                if(newState.length === goodsData.value[0].goods_stats.length) {
+                    const statesId = newState.map(item => item.sku.statsId)
+                    const result = skuListData.value.find(sku => statesId.every(item => sku.skuId.includes(item)))
+                    goodsSkuPrice.value = result?.price ?? 0
+                    sku_id.value = result?._id ?? ''
+                }else {
+                    goodsSkuPrice.value = goodsSkuPrice.value
+                }
+            }
+        })
+    }
+},{deep:true})
+
+// 把所有的按钮diasble状态清零
+const resetOption = () => {
+    goodsData.value[0].goods_stats.forEach(attr => {
+        attr.subAttributes.forEach(value => {
+            value.disable = false
+        })
+    })
+}
+
+// 要购买的记录商品数量
+const orderQuantity = ref(0)
+
+// 加数量
+const addQuantity = () => {
+    const isLengthMath = selectedStats.value.length === goodsData.value[0].goods_stats.length
+    if(isLengthMath) {
+        orderQuantity.value += 1
+    }
+}
+// 减数量
+const minusQuantity = () => {
+    const isLengthMath = selectedStats.value.length === goodsData.value[0].goods_stats.length
+    if(isLengthMath) {
+        orderQuantity.value -= 1
+    }
+}
+
+// 允许加入购物车的条件
+const buttonStyle = computed(() => {
+    if(goodsData.value.length > 0 && goodsData.value[0].goods_stats.length > 0) {
+        const isLengthMath = selectedStats.value.length === goodsData.value[0].goods_stats.length
+        if(isLengthMath && orderQuantity.value > 0) {
+            return {
+                disable:false,
+                back:'#214bd5',
+                color:'#ffffff'
+            }
+        }else {
+            return {
+                disable:true,
+                back:'none',
+                color:'none'
+            }
+        }
+    }else {
+        if(orderQuantity.value > 0) {
+            return {
+                disable:false,
+                back:'#214bd5',
+                color:'#ffffff'
+            }
+        }else {
+            return {
+                disable:true,
+                back:'none',
+                color:'none'
+            }
+        }
+    }
+})
 
 // 返回页面
 const preVious = () => {
