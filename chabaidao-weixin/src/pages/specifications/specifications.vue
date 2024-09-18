@@ -44,6 +44,7 @@
                 v-if="item.goods_stock > 0"
                 :disabled="buttonStyle.disable"
                 :style="{'background-color':buttonStyle.back, 'color':buttonStyle.color}"
+                @click="addToCart()"
             >加入购物车</button>
             <button v-else>已售罄</button>
         </block>
@@ -209,6 +210,30 @@ const buttonStyle = computed(() => {
         }
     }
 })
+
+// 加入购物车逻辑
+import type { CartItem } from '@/types/cart'
+import { getCartStatus } from '@/store/index'
+const addToCart = () => {
+    const skuMap = selectedStats.value.map(item => item.sku.name)
+    const skuIdArr = selectedStats.value.map(item => item.sku.statsId)
+    const item: CartItem = {
+        fatherId:parentLevel.value,
+        sonId:sublevel.value,
+        goods_name:goodsData.value[0].goods_name,
+        goods_image: goodsData.value[0].goods_image,
+        goods_id:goodsData.value[0]._id,
+        goodsPrice:goodsSkuPrice.value,
+        goodsQuantity:orderQuantity.value,
+        totalPrice:0,
+        sku:skuMap,
+        skuIdArr:skuIdArr,
+        sku_id:sku_id.value,
+        homePage:false
+    }
+    getCartStatus().addCart(item)
+    console.log(getCartStatus().cartItems)
+}
 
 // 返回页面
 const preVious = () => {
