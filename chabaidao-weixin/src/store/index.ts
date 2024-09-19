@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { CartItem } from '@/types/cart'
-import  Decima from 'decimal.js'
+import  Decimal from 'decimal.js'
 
 // 你可以任意命名 `defineStore()` 的返回值，但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。
 // (比如 `useUserStore`，`useCartStore`，`useProductStore`)
@@ -10,6 +10,16 @@ export const getCartStatus = defineStore('shoppingcart', {
   state:() =>({
     cartItems:[] as CartItem[]
   }),
+  getters:{
+    paymentPrice():number{
+      const res = this.cartItems.reduce((subtotal,goodsItem) => subtotal + goodsItem.totalPrice,0)
+      return Number(new Decimal(res).toFixed(2))
+    },
+    getCartCount():number{
+      const res = this.cartItems.reduce((subtotal,goodsItem) => subtotal + goodsItem.goodsQuantity,0)
+      return res
+    }
+  },
   actions: {
     addCart(item:CartItem)  {
         const existingItem = this.cartItems.find((cartItem) => {
@@ -21,17 +31,31 @@ export const getCartStatus = defineStore('shoppingcart', {
             }else {
                 existingItem.goodsQuantity += item.goodsQuantity
             }
-            const price = new Decima(existingItem.goodsPrice)
-            const quantity = new Decima(existingItem.goodsQuantity)
+            const price = new Decimal(existingItem.goodsPrice)
+            const quantity = new Decimal(existingItem.goodsQuantity)
             const totalPrice = Number((price.times(quantity)).toString())
             existingItem.totalPrice = totalPrice
         }else {
-            const price = new Decima(item.goodsPrice)
-            const quantity = new Decima(item.goodsQuantity)
+            const price = new Decimal(item.goodsPrice)
+            const quantity = new Decimal(item.goodsQuantity)
             const totalPrice = Number((price.times(quantity)).toString())
             item.totalPrice = totalPrice
             this.cartItems.push(item)
         }
+    },
+    // 找出购物车里数量为零的商品并删除他
+    removeEmptyArrays() {
+      this.cartItems.forEach((item,index) => {
+        if(item.goodsQuantity === 0) {
+          this.cartItems.splice(index,1)
+        }
+      })
     }
   }
+})
+
+export const pagePlaceOrder = defineStore('pagePlaceOrder', {
+  state:() =>({
+    orderType:'002'
+  })
 })

@@ -175,7 +175,7 @@ const rangeQuery = async (latitude:number, longitude:number) => {
 
 </script>
 
-<style scoped>
+<style >
     /* 点餐区域 */
     .order-menu{
   display: flex;
