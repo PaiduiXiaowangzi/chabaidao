@@ -32,9 +32,9 @@
                 <text v-if="item_a.quantity > 0">{{ item_a.quantity }}</text>
               </view>
               <view v-else class="select-goods single-goods">
-                <image src="/static/jian-goods.png" mode="widthFix" />
+                <image src="/static/jian-goods.png" mode="widthFix" @click.stop="addSingleProduct(index,index_a,item._id,item_a._id,'001')"/>
                 <text v-if="item_a.quantity > 0">{{ item_a.quantity }}</text>
-                <image src="/static/jia-goods.png" mode="widthFix" />
+                <image src="/static/jia-goods.png" mode="widthFix" @click.stop="addSingleProduct(index,index_a,item._id,item_a._id,'002')" />
               </view>
             </block>
             <view v-else>
@@ -56,7 +56,9 @@ import{ onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import type { Distance, AllGoods } from'@/types/ordersystem'
 import { request } from '@/api/request'
-import {toRaw} from 'vue'
+import type {CartItem} from '@/types/cart'
+import { getCartStatus } from '@/store/index'
+import {watch} from 'vue'
 onLoad(() => {
   locate()
   allGoodsData()
@@ -172,6 +174,76 @@ const rangeQuery = async (latitude:number, longitude:number) => {
         url:'/pages/specifications/specifications?goods=' + str
       })
     }
+
+    // 首页添加商品到购物车
+    const addSingleProduct = (index:number,index_a:number,fatherId:string,sonId:string,type:string) =>{
+      if(type == '001'){
+        allGoods.value[index].category[index_a].quantity--
+      }else{
+        allGoods.value[index].category[index_a].quantity++
+      }
+      const theGoods = allGoods.value[index].category[index_a]
+      const item:CartItem = {
+          fatherId,
+          sonId,
+          goods_name:theGoods.goods_name,
+          goods_image:theGoods.goods_image,
+          goods_id:theGoods._id,
+          goodsPrice:theGoods.goods_price,
+          goodsQuantity:theGoods.quantity,
+          totalPrice:0,
+          sku:[],
+          skuIdArr:[],
+          sku_id:'',
+          homePage:true
+      }
+      getCartStatus().addCart(item)
+    }
+
+
+    const cartStore = getCartStatus()
+
+    // 监听商品数量变化，保证cartSrore和allGoods数量一致
+    watch(() =>cartStore.cartItems.map(item => item.goodsQuantity),
+    (newVal,oldVal) => {
+      for(let i = 0; i < newVal.length; i++) {
+        if(newVal[i] !== oldVal[i]) {
+          var changedItem = cartStore.cartItems[i]
+        }
+      }
+      if(cartStore.cartItems.length <= 0) return
+        let goodsQuantity = 0
+        let fatherId = ''
+        let sonId = ''
+        cartStore.cartItems.forEach(item => {
+          if(changedItem && item.goods_id === changedItem.goods_id) {
+            goodsQuantity = item.goodsQuantity
+            fatherId = item.fatherId
+            sonId = item.sonId
+          }
+        })
+        let parentIndex = allGoods.value.findIndex(item => item._id === fatherId);
+        if (parentIndex >= 0) {
+          const category = allGoods.value[parentIndex].category;
+          const childIndex = category.findIndex(item => item._id === sonId);
+          if (childIndex >= 0 && allGoods.value[parentIndex].category[childIndex].quantity !== goodsQuantity) {
+            allGoods.value[parentIndex].category[childIndex].quantity = goodsQuantity;
+          }
+        }
+      })
+    // 监听清空购物车，将allGoods里的商品清零
+    watch(() => cartStore.cartItems, (newVal) => {
+      // 防止重复触发更新
+      if (newVal.length <= 0 && allGoods.value.some(item => item.category.some(item_a => item_a.quantity > 0))) {
+        allGoods.value.forEach(item => {
+          item.category.forEach(item_a => {
+            if (item_a.quantity > 0) {
+              item_a.quantity = 0
+            }
+          })
+        })
+      }
+    })
 
 </script>
 

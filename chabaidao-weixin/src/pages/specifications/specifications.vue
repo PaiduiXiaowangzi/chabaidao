@@ -44,7 +44,8 @@
                 v-if="item.goods_stock > 0"
                 :disabled="buttonStyle.disable"
                 :style="{'background-color':buttonStyle.back, 'color':buttonStyle.color}"
-                @click="addToCart()"
+                @click="addToCart()
+                "
             >加入购物车</button>
             <button v-else>已售罄</button>
         </block>
@@ -232,6 +233,7 @@ const addToCart = () => {
         homePage:false
     }
     getCartStatus().addCart(item)
+    preVious()
     console.log(getCartStatus().cartItems)
 }
 
