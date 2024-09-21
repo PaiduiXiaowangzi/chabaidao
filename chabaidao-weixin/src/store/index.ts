@@ -54,8 +54,27 @@ export const getCartStatus = defineStore('shoppingcart', {
   }
 })
 
+// 存储用户选择的下单类型
 export const pagePlaceOrder = defineStore('pagePlaceOrder', {
   state:() =>({
     orderType:'002'
   })
+})
+
+// 点击首页轮播图推荐商品到点单页面，找到商品下单
+interface GoodsId {
+  categoryId:string,
+  goodsId:string
+}
+
+
+export const pageGoodsId = defineStore('pageGoodsId',{
+  state:() => ({
+    goodsId:[] as GoodsId[]
+  }),
+  actions: {
+    uploadGoodsId(item:GoodsId) {
+      this.goodsId = [item]
+    }
+  }
 })

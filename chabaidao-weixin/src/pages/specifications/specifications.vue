@@ -173,7 +173,7 @@ const addQuantity = () => {
 // 减数量
 const minusQuantity = () => {
     const isLengthMath = selectedStats.value.length === goodsData.value[0].goods_stats.length
-    if(isLengthMath) {
+    if(isLengthMath && orderQuantity.value > 0) {
         orderQuantity.value -= 1
     }
 }

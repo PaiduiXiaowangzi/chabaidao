@@ -32,7 +32,7 @@
                 <text v-if="item_a.quantity > 0">{{ item_a.quantity }}</text>
               </view>
               <view v-else class="select-goods single-goods">
-                <image src="/static/jian-goods.png" mode="widthFix" @click.stop="addSingleProduct(index,index_a,item._id,item_a._id,'001')"/>
+                <image src="/static/jian-goods.png" mode="widthFix"  @click.stop="addSingleProduct(index,index_a,item._id,item_a._id,'001')"/>
                 <text v-if="item_a.quantity > 0">{{ item_a.quantity }}</text>
                 <image src="/static/jia-goods.png" mode="widthFix" @click.stop="addSingleProduct(index,index_a,item._id,item_a._id,'002')" />
               </view>
@@ -177,7 +177,7 @@ const rangeQuery = async (latitude:number, longitude:number) => {
 
     // 首页添加商品到购物车
     const addSingleProduct = (index:number,index_a:number,fatherId:string,sonId:string,type:string) =>{
-      if(type == '001'){
+      if(type == '001' && allGoods.value[index].category[index_a].quantity > 0){
         allGoods.value[index].category[index_a].quantity--
       }else{
         allGoods.value[index].category[index_a].quantity++
@@ -244,6 +244,19 @@ const rangeQuery = async (latitude:number, longitude:number) => {
         })
       }
     })
+
+    import { pageGoodsId } from '@/store/index'
+    // 监听此页面是否为首页轮播图跳转而来，如果是，再次跳转到商品详情
+    watch([() => pageGoodsId().goodsId,allGoods,allGoods],([goodsId,goods]) => {
+      if(goodsId.length > 0 && goods.length > 0) {
+        const parentIndex = allGoods.value.findIndex(item => item._id === goodsId[0].categoryId)
+        if(parentIndex >= 0) {
+          const category = allGoods.value[parentIndex].category
+          const childIndex = category.findIndex(item => item._id === goodsId[0].goodsId)
+          selectGoods(parentIndex, childIndex, goodsId[0].categoryId, goodsId[0].goodsId)
+        }
+      }
+    },{deep:true})
 
 </script>
 

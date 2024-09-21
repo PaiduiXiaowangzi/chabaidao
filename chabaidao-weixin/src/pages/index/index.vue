@@ -5,6 +5,7 @@
           <image
             :src="item.carouselImages"
             mode="aspectFill"
+            @click="recommendGoods(item.categoryId, item.goodsId)"
           />
         </swiper-item>
       </swiper>
@@ -19,6 +20,7 @@
             <image
                 :src="item.icon"
                 mode="widthFix"
+                @click="routerOrder(item.orderType)"
             />
             <text>{{ item.title }}</text>
         </view>
@@ -72,6 +74,25 @@ const adAction = ref([
   'http://ge.thexxdd.cn/kecheng-chabaidao/banner001.jpg',
   'http://ge.thexxdd.cn/kecheng-chabaidao/banner002.jpg'
 ])
+
+import { pageGoodsId, pagePlaceOrder } from '@/store/index'
+// 点击轮播图跳转到订单详情
+const recommendGoods = (categoryId:string, goodsId:string ) => {
+  uni.switchTab({
+    url:'/pages/ordersystem/ordersystem',
+  })
+  pageGoodsId().uploadGoodsId({categoryId, goodsId})
+}
+// 去下单
+const routerOrder = (orderType:string) => {
+  uni.switchTab({
+    url:'/pages/ordersystem/ordersystem',
+  })
+  pagePlaceOrder().$patch(val => {
+    val.orderType = orderType
+  })
+}
+
 </script>
   
   <style scoped>

@@ -40,31 +40,52 @@
       </view>
     </view>
     </view>
+      <!-- 是否打样 -->
+    <view class="close-up-shop" v-if="closeTime">嘿嘿嘿,打烊了,营业时间为{{ MerchanInfo().businessHours[1] }} ~ {{ MerchanInfo().businessHours[1] }}</view>
   </template>
   
   <script setup lang="ts">
   import { computed, ref, watch } from 'vue'
+  import { onLoad } from '@dcloudio/uni-app'
   import { getCartStatus, pagePlaceOrder } from '@/store/index'
   import { MerchanInfo } from '@/api/menubutton'
   import { Decimal } from 'decimal.js'
+  import moment from 'moment'
+  // 判断是否打样
+  const closeTime = ref(false)
+  onLoad(() => {
+    console.log(MerchanInfo().businessHours[0],MerchanInfo().businessHours[1])
+    const openTime = moment(MerchanInfo().businessHours[0],'HH:mm')
+    const closingTime = moment(MerchanInfo().businessHours[1],'HH:mm')
+    const is = moment().isBetween(openTime, closingTime,undefined,'[]')
+    closeTime.value = is ? false : true
+  })
   
   const cartStore = getCartStatus()
   
-  // 计算购物车数据
-  const cartData = computed(() => ({
-    getCartCount: cartStore.getCartCount,
-    paymentPrice: cartStore.paymentPrice,
-    cartItems: cartStore.cartItems
-  }))
-  
-  // 监听购物车中的商品数量，如果为0则删除
-  watch(() => cartStore.cartItems, (newVal) => {
-    cartStore.removeEmptyArrays()
-    if (newVal.length <= 0) {
-      deleteGoods()
+
+  const cartData = computed(() => {
+    return {
+      getCartCount: cartStore.getCartCount, // 购物车数量
+      paymentPrice: cartStore.paymentPrice, // 购物车支付总价
+      cartItems: cartStore.cartItems, // 购物车里的商品
     }
-  }, { deep: true })
-  
+  })
+
+  watch(
+  () => cartStore.cartItems,
+  (newVal) => {
+    // 移除数量为 0 的商品
+    cartStore.removeEmptyArrays();
+    
+    // 如果购物车为空，并且之前没有调用 deleteGoods()
+    if (cartStore.cartItems.length <= 0 && !showCart.value) {
+      deleteGoods();
+    }
+  },
+  { deep: true }
+)
+
 //   是否显示购物车
   const showCart = ref<boolean>(false)
   
@@ -82,17 +103,19 @@
   }
   
   // 计算还差多少钱起送
-  const liftingPrice = computed(() => {
-    const initialPrice = new Decimal(MerchanInfo().initialPrice)
-    const nowPrice = new Decimal(cartData.value.paymentPrice)
-    return Number(initialPrice.minus(nowPrice).toFixed(2))
-  })
+  const liftingPrice = computed(()=>{
+      const num1 = new Decimal(MerchanInfo().initialPrice)
+      const num2 = new Decimal(cartData.value.paymentPrice)
+      return Number(num1.minus(num2).toString())
+    })
   
   // 减少商品数量
   const minusQuantity = (index: number) => {
     if (cartStore.cartItems[index].goodsQuantity > 0) {
       cartStore.$patch((val) => {
-        val.cartItems[index].goodsQuantity--
+        if(val.cartItems[index].goodsQuantity > 0){
+          val.cartItems[index].goodsQuantity--
+        }
         val.cartItems[index].totalPrice = new Decimal(val.cartItems[index].goodsQuantity).times(val.cartItems[index].goodsPrice).toNumber()
       })
     }
@@ -100,13 +123,17 @@
   
   // 增加商品数量
   const addQuantity = (index: number) => {
+    console.log(liftingPrice.value)
+    console.log(MerchanInfo().initialPrice)
     cartStore.$patch((val) => {
       val.cartItems[index].goodsQuantity++
       val.cartItems[index].totalPrice = new Decimal(val.cartItems[index].goodsQuantity).times(val.cartItems[index].goodsPrice).toNumber()
     })
   }
+
+
+
   </script>
-  
 <style >
      /* 底部购物车 */
 .to-checkout{

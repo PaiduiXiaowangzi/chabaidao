@@ -9,7 +9,7 @@
         <view class="address-view">
           <image src="/static/xing.png" mode="widthFix"/>
           <text>{{ MerchanInfo().address }}</text>
-          <text></text>
+          <text>{{ pagePlaceOrder().orderType === '001' ? '到店自取' : '外卖配送' }}</text>
         </view>
         <view class="distance-view">
           <image src="/static/weizhi.png" mode="widthFix"/>
@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import { pagePlaceOrder } from '@/store/index'
 import {MerchanInfo}  from '@/api/menubutton'
 import { ref, getCurrentInstance } from 'vue'
 import { MenuButton } from '@/api/menubutton'
