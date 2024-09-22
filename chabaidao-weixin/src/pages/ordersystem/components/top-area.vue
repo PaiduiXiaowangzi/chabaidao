@@ -1,7 +1,7 @@
 <template>
     <view class="search-view">
       <view :style="{'height':MenuButton().top}"></view>
-      <view class="search-input">
+      <view class="search-input" @click="searchGoods">
         <image src="/static/sousuo.png" mode="widthFix"/>
         <input placeholder="搜索商品" placeholder-class="input-color" disabled/>
       </view>
@@ -37,6 +37,13 @@ onLoad(() => {
   })
   .exec();
 })
+
+// 跳转搜索
+const searchGoods = () => {
+  uni.navigateTo({
+    url:'/pages/search-products/index',
+  })
+}
 
 // 接收父组件参数
 withDefaults(

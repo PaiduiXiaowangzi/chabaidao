@@ -32,6 +32,12 @@
 				"navigationBarTitleText": "specifications",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/search-products/index",
+			"style": {
+				"navigationBarTitleText": "搜索商品"
+			}
 		}
 	],
 	"globalStyle": {

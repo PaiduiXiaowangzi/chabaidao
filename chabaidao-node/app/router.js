@@ -58,4 +58,6 @@ module.exports = app => {
   router.get('/api/wx/all-goods', controller.wxChooseAmenu.allGoods)
   //  获取某个商品的sku列表
   router.get('/api/wx/goods-sku-list', controller.wxChooseAmenu.goodsSkuList)
+  //  搜索商品
+  router.get('/api/wx/search-goods', controller.wxChooseAmenu.searchGoods)
 };

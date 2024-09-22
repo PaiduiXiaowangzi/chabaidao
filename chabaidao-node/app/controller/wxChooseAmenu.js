@@ -40,7 +40,20 @@ class WxChooseAmenuController extends Controller {
     }, ctx.query)
     const res = await db.find({ goods_id: _id })
     ctx.send(res)
-}
+  }
+
+  async searchGoods() {
+    const { ctx, service } = this
+    const { keyword, page } = ctx.query
+    ctx.validate({
+      keyword: {type:'nullValue', tips:'请输入搜索内容'},
+      page: {type:'nullValue', tips:'分页值不能为空'}
+    },ctx.query)
+    const res = await service.wxChooseAmenu.searchGoods(keyword,page)
+    // console.log('返回结果:', res.length)
+    ctx.send(res)
+  }
+
 }
 
 

@@ -54,6 +54,18 @@ class WxChooseAmenuService extends Service {
         ])
         return res
     }
+
+    async searchGoods (keyword, page) {
+        const db = this.ctx.model.Goods
+        const query = { $regex: keyword, $options:'i'}
+        const res = await db.find({
+            $or: [
+                { goods_name: query },
+                { goods_describe: query }
+            ]
+        }).skip((page - 1) * 10).limit(10)
+        return res
+    }
 }
 
 module.exports = WxChooseAmenuService;

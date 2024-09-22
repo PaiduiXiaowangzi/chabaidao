@@ -45,6 +45,7 @@
         </view>
       </view>
   </scroll-view>
+  <view style="height: 400rpx;"></view>
   <!-- 购物车组件 -->
   <ShoppingCart />
 </template>
