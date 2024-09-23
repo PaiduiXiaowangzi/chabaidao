@@ -38,6 +38,19 @@
 			"style": {
 				"navigationBarTitleText": "搜索商品"
 			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "login",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/upload-wxuser/index",
+			"style": {
+				"navigationBarTitleText": "upload-wxuser"
+			}
 		}
 	],
 	"globalStyle": {

@@ -60,4 +60,8 @@ module.exports = app => {
   router.get('/api/wx/goods-sku-list', controller.wxChooseAmenu.goodsSkuList)
   //  搜索商品
   router.get('/api/wx/search-goods', controller.wxChooseAmenu.searchGoods)
+  //  小程序用户登录
+  router.get('/api/wx/wxlogin', controller.wxuserinfo.wxLogin)
+  //  小程序用户修改头像昵称
+  router.post('/api/wx/uploadWxUser', app.middleware.jwt(), controller.wxuserinfo.uploadWxUser)
 };

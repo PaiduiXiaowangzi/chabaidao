@@ -89,6 +89,11 @@ module.exports = appInfo => {
     config.wxqq = {
       key: process.env.WXQQ_KEY
     }
+    // 微信小程序相关
+    config.wxAppid = {
+      appid: process.env.WX_APPID,
+      secret: process.env.WX_APPSECRET
+    }
 
   // add your user config here
   const userConfig = {

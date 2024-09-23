@@ -2,7 +2,14 @@ export const BaseUrl:string = 'http://127.0.0.1:7001'
 const requestAddress:string = BaseUrl + '/api/wx'
 
 export const uploadFileUrl:string = BaseUrl + '/api/admin/uploadFile'
+import { Base64 } from 'js-base64';
 
+
+const getToken = ():string => {
+    const token:string = uni.getStorageSync('wxUserInfo').user_Token || ''
+    const base64Token = Base64.encode(token + ':')
+    return 'Basic ' + base64Token
+}
 interface Data<T>{
     data:T
     error:any
@@ -15,6 +22,7 @@ export const request = <T>(url:string, data:object = {}, method:'GET' | 'POST' =
             url:requestAddress + url,
             method,
             data,
+            header:{Authorization:getToken()},
             success: (res) => {
                 const status = res.statusCode
                 switch(status){
@@ -25,7 +33,7 @@ export const request = <T>(url:string, data:object = {}, method:'GET' | 'POST' =
                         reject('接口不存在')
                         break
                     case 401:
-                        uni.navigateTo({ url: '/pages/login/index' })
+                        uni.navigateTo({ url: '/pages/login/login' })
                         console.log('没有权限')
                         reject('401')
                     case 500:

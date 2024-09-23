@@ -42,6 +42,7 @@ class WxChooseAmenuController extends Controller {
     ctx.send(res)
   }
 
+  // 搜索商品
   async searchGoods() {
     const { ctx, service } = this
     const { keyword, page } = ctx.query
