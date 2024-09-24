@@ -78,3 +78,15 @@ export const pageGoodsId = defineStore('pageGoodsId',{
     }
   }
 })
+
+import type { ReceiverAddress } from '@/types/cart'
+export const receiverAddress = defineStore('receiverAddress',{
+  state:() =>({
+    addressItems:[] as ReceiverAddress[]
+  }),
+  actions:{
+    uploadAddress(item:ReceiverAddress){
+      this.addressItems = [item]
+    }
+  }
+})

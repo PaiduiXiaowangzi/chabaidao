@@ -1,6 +1,6 @@
 <template>
   <view class="user-avatar">
-    <image :src="userInfo.avatar" mode="aspectFill" @click="uoloadAvatar" />
+    <image :src="userInfo.avatar" mode="aspectFill" @click="uploadAvatar" />
   </view>
   <view class="user-nickname">
     <text>昵称</text>
@@ -26,25 +26,27 @@ import { onLoad } from '@dcloudio/uni-app'
   })
 
   // 上传头像
-  const uoloadAvatar = () => {
+  function uploadAvatar(){
     uni.chooseMedia({
-      count:1,
-      mediaType:['image'],
-      success:(res)=>{
+      count: 1,
+      mediaType: ['image'],
+      success:res=>{
         uni.uploadFile({
-          url:'uploadFileUrl',
-          name:'file',
-          filePath:res.tempFiles[0].tempFilePath,
-          success:(uploadRes)=>{
-            const imgurl = JSON.parse(uploadRes.data) as {data:string}
-            userInfo.avatar = imgurl.data
+          url: uploadFileUrl,
+          name: 'file',
+          filePath: res.tempFiles[0].tempFilePath,
+          success:uploadRes=>{
+              const imgUrl = JSON.parse(uploadRes.data) as {data:string}
+              userInfo.avatar = imgUrl.data
           },
-          fail:(fail)=>{
-            console.log(fail)
-            uni.showToast({title:'上传失败',icon:'error'})
-          },
+          fail:uploadErr=>{
+              uni.showToast({title: '上传失败'});
+          }
         })
       },
+      fail:err=>{
+          uni.showToast({title: '上传失败'});
+      }
     })
   }
 

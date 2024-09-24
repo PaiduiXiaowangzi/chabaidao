@@ -51,6 +51,19 @@
 			"style": {
 				"navigationBarTitleText": "upload-wxuser"
 			}
+		},
+		{
+			"path": "pages/add-address/index",
+			"style": {
+				"navigationBarTitleText": "add-address",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/select-address/index",
+			"style": {
+				"navigationBarTitleText": "select-address"
+			}
 		}
 	],
 	"globalStyle": {

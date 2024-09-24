@@ -64,4 +64,12 @@ module.exports = app => {
   router.get('/api/wx/wxlogin', controller.wxuserinfo.wxLogin)
   //  小程序用户修改头像昵称
   router.post('/api/wx/uploadWxUser', app.middleware.jwt(), controller.wxuserinfo.uploadWxUser)
+  //  小程序用户创建收货地址
+  router.post('/api/wx/upload-address', app.middleware.jwt(), controller.wxuserinfo.uploadAddress)
+  //  小程序用户设置默认收货地址
+  router.get('/api/wx/set-default-address', app.middleware.jwt(), controller.wxuserinfo.setDefaultAddress)
+  //  小程序用户删除收货地址
+  router.get('/api/wx/delete-user-address', app.middleware.jwt(), controller.wxuserinfo.deleteUserAddress)
+  //  小程序用户获取收货地址
+  router.get('/api/wx/get-user-address', app.middleware.jwt(), controller.wxuserinfo.getUserAddress)
 };

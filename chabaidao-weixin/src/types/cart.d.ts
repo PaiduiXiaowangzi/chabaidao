@@ -12,3 +12,11 @@ export type CartItem = {
     sku_id:string//sku对象唯一id
     homePage?:boolean//判断是否是从商品列表页提交的无规格商品
 }
+
+// 确认订单页面用户选择的收货地址
+export type ReceiverAddress = {
+    address: string
+    detailedAddress: string
+    mobile: string
+    name: string
+}
