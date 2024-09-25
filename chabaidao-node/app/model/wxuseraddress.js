@@ -20,6 +20,10 @@ module.exports = app => {
             type:String,
             required:true
         },
+        defaultAddress: {//默认收货地址
+            type: Boolean,
+            default: false
+        },
         detailedAddress: {
             type:String,
             required:true

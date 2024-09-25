@@ -72,4 +72,6 @@ module.exports = app => {
   router.get('/api/wx/delete-user-address', app.middleware.jwt(), controller.wxuserinfo.deleteUserAddress)
   //  小程序用户获取收货地址
   router.get('/api/wx/get-user-address', app.middleware.jwt(), controller.wxuserinfo.getUserAddress)
+  //  小程序用户获取默认收货地址
+  router.get('/api/wx/default-address', app.middleware.jwt(), controller.userorder.defaultAddress)
 };

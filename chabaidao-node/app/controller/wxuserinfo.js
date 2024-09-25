@@ -47,13 +47,13 @@ class WxuserinfoController extends Controller {
     const { ctx } = this
     const { _id } = ctx.query
     ctx.validate({
-      _id:{type:'nullValue', tips:'缺少_id值'}
-    },ctx.query)
+        _id: { type: 'nullValue', tips: '缺少_id值' }
+    }, ctx.query)
     const db = ctx.model.Wxuseraddress
-    await db.updateMany({},{$set:{deleteUserAddress: false}})
-    await db.findByIdAndUpdate({ _id },{ defaultAddress:true})
-    ctx.send
-  }
+    await db.updateMany({}, { $set: { defaultAddress: false } })
+    await db.findByIdAndUpdate({ _id }, { defaultAddress: true })
+    ctx.send()
+}
 
   // 删除收货地址
   async deleteUserAddress() {
@@ -71,7 +71,7 @@ class WxuserinfoController extends Controller {
   async getUserAddress() {
     const { ctx } = this
     const db = ctx.model.Wxuseraddress
-    const res = await db.find({userOpenid:ctx.auth.uid}, { userOpenid:false })
+    const res = await db.find({userOpenid:ctx.auth.uid}, {userOpenid:false })
     ctx.send(res)
   }
 

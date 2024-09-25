@@ -64,6 +64,12 @@
 			"style": {
 				"navigationBarTitleText": "select-address"
 			}
+		},
+		{
+			"path": "pages/payment/index",
+			"style": {
+				"navigationBarTitleText": "payment"
+			}
 		}
 	],
 	"globalStyle": {

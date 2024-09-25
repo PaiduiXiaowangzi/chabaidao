@@ -1,5 +1,5 @@
 <template>
-  <text class="manage" @click="manageAddress = !manageAddress">{{ manageAddress ? '完成' : '管理' }}</text>
+<text class="manage" @click="manageAddress = !manageAddress">{{ manageAddress ? '完成' : '管理' }}</text>
 <view class="address-view" v-for="(item,index) in userAddress" :key="index">
   <view class="address-flex" @click="selectAddress(item)">
       <view class="select-address">
@@ -42,7 +42,8 @@
   // 设置默认地址
   const setDefault = async (index:number, _id:string) => {
     const queryId:Id ={_id}
-    await request('/set-default-address',queryId)
+    const res = await request('/set-default-address',queryId)
+    console.log('haha',res)
     userAddress.value.forEach(item => item.defaultAddress = false)
     userAddress.value[index].defaultAddress = true
   }
@@ -72,6 +73,9 @@
       detailedAddress:item.detailedAddress,
       mobile:item.mobile,
       name:item.name
+    })
+    uni.navigateBack({
+      delta:1,
     })
   }
 
