@@ -74,4 +74,10 @@ module.exports = app => {
   router.get('/api/wx/get-user-address', app.middleware.jwt(), controller.wxuserinfo.getUserAddress)
   //  小程序用户获取默认收货地址
   router.get('/api/wx/default-address', app.middleware.jwt(), controller.userorder.defaultAddress)
+  //  小程序用户提交到店自取订单
+  router.post('/api/wx/selfpickup-order', app.middleware.jwt(), controller.userorder.selfPickupOrder)
+  //  小程序用户提交外卖订单
+  router.post('/api/wx/outdoor-order', app.middleware.jwt(), controller.userorder.outdoorOrder)
+  //  小程序用户获取订单列表
+  router.get('/api/wx/all-order-list', app.middleware.jwt(), controller.userorder.allOrderList)
 };

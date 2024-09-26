@@ -44,14 +44,14 @@
   <!-- 支付 -->
   <view class="initiate-payment">
     <text>待支付 ¥{{ cartStore.paymentPrice }}</text>
-    <button @click="WXpay" >支付</button>
+    <button @click="WXpayment" >支付</button>
   </view>
   <view style="height: 200rpx;"></view>
 </template>
 
 <script setup lang="ts">
 import{ MerchanInfo } from '../../api/menubutton'
-  import type { ReceiverAddress } from '../../types/cart'
+  import type { ReceiverAddress, SelfpickupoOrder, OutdoorDining } from '../../types/cart'
   import { receiverAddress, pagePlaceOrder, getCartStatus } from '../../store/index'
   import { ref } from 'vue'
   import { onLoad } from '@dcloudio/uni-app'
@@ -73,11 +73,30 @@ import{ MerchanInfo } from '../../api/menubutton'
       url:'/pages/select-address/index',
     })
   }
-  const WXpay = () => {
+  // 支付逻辑
+  const WXpayment = async () => {
+    uni.showLoading({title:'支付中', mask:true,})
+    // 自提订单
+    if(pagePlaceOrder().orderType == '001') {
+      const orderData: SelfpickupoOrder = {
+        orderType: pagePlaceOrder().orderType,
+        userMobile:mobile.value,
+        productOrder:cartStore.cartItems
+      }
+      await request('/selfpickup-order', orderData, 'POST')
+    }else {//外卖订单
+      const orderData: OutdoorDining = {
+        orderType: pagePlaceOrder().orderType,
+        receiverAddress:addressStore.addressItems,
+        productOrder:cartStore.cartItems
+      }
+      await request('/outdoor-order', orderData, 'POST')
+    }
+    addressStore.addressItems = []
     cartStore.cartItems = []
-    console.log(cartStore.cartItems.value)
-    uni.navigateBack({
-      delta:1,
+    uni.hideLoading()
+    uni.switchTab({
+      url:'/pages/order/order'
     })
   }
 </script>

@@ -70,6 +70,12 @@
 			"style": {
 				"navigationBarTitleText": "payment"
 			}
+		},
+		{
+			"path": "pages/order-details/index",
+			"style": {
+				"navigationBarTitleText": "order-details"
+			}
 		}
 	],
 	"globalStyle": {

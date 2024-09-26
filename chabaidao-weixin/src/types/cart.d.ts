@@ -20,3 +20,26 @@ export type ReceiverAddress = {
     mobile: string
     name: string
 }
+
+// 自提订单接口参数类型
+export type SelfpickupoOrder = {
+    orderType:string
+    userMobile:string
+    productOrder:CartItem[]
+}
+
+// 外卖订单接口参数类型
+export type OutdoorDining = {
+    orderType:string
+    receiverAddress:ReceiverAddress[]
+    productOrder:CartItem[]
+}
+
+// 用户订单列表
+export type UserOrderList = {
+    orderType: string
+    paymentPrice: number
+    productOrderCount: number
+    _id: string
+    productOrder:CartItem[]
+}

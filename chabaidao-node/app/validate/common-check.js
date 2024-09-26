@@ -38,5 +38,13 @@ module.exports = app => {
             }
         }
     })
+    validator.addRule('receiverAddressVal', (rule, value) => {
+        if (!Array.isArray(value)) {
+            return '该字段必须是数组类型'
+        }
+        if (value.length <= 0) {
+            return rule.tips
+        }
+    })
 
 }
