@@ -65,7 +65,7 @@
 	})
 	async function requestApi(){
 	    const res = await request.get('/receive-order-list',{page:page.value})
-	    console.log(res)
+	    console.log(res,'6666')
 	    tableData.value = res.data.order
 	    total.value = res.data.total
 	}

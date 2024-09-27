@@ -44,6 +44,10 @@ module.exports = app => {
   router.get('/api/admin/get-recommend', app.middleware.jwt(), controller.recommendGoods.getRecommend)
   // 删除推荐商品
   router.get('/api/admin/delete-recommend', app.middleware.jwt(), controller.recommendGoods.deleteRecommend)
+  // 后台管理获取用户订单列表
+  router.get('/api/admin/receive-order-list', app.middleware.jwt(), controller.userorder.receiveOrderList)
+  // 后台管理获取单个订单详情
+  router.get('/api/admin/receive-order-details', app.middleware.jwt(), controller.userorder.receiveOrderDetails)
 
 
 // ------------------小程序接口------------------
@@ -80,4 +84,6 @@ module.exports = app => {
   router.post('/api/wx/outdoor-order', app.middleware.jwt(), controller.userorder.outdoorOrder)
   //  小程序用户获取订单列表
   router.get('/api/wx/all-order-list', app.middleware.jwt(), controller.userorder.allOrderList)
+  //  小程序用户查询订单详情数据
+  router.get('/api/wx/order-details', app.middleware.jwt(), controller.userorder.orderDetails)
 };

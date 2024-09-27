@@ -43,3 +43,15 @@ export type UserOrderList = {
     _id: string
     productOrder:CartItem[]
 }
+
+// 订单详情
+export type UserOrderDetails = {
+    orderNumber: string
+    orderTime: string
+    orderType: string
+    paymentPrice: number
+    takeMealCode: number
+    _id: string
+    productOrder:CartItem[]
+    receiverAddress:ReceiverAddress[]
+}

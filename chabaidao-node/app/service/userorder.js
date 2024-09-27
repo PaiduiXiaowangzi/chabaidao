@@ -41,6 +41,29 @@ class UserorderService extends Service {
     ])
     return res
   }
+
+  async receiveOrderList(page) {
+    const db = this.ctx.model.Userorder
+    const res = await db.aggregate([
+      {$sort:{timestamp: -1}},
+      {$skip:(page - 1) * 10},
+      {$limit: 10},
+      {
+        $project: {
+          _id:true,
+          orderTime:true,
+          orderType:true,
+          paymentPrice:true,
+          productOrderCount:{$size:'$productOrder'}
+        }
+      }
+    ])
+    const total = await db.countDocuments()
+    return { order:res, total }
+  }
+
+
+
 }
 
 module.exports = UserorderService;

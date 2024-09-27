@@ -15,10 +15,11 @@ import { reactive } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
   const userInfo = reactive({
     nickname:'',
-    avatar:'https://chabaidao66.oss-cn-guangzhou.aliyuncs.com/chabaidao661726888868258954.png'
+    avatar:''
   })
   onLoad(() => {
-    let getUserInfo = uni.getStorageSync('wxUserInfor') as {avatar:string, nickname:string}
+    let getUserInfo = uni.getStorageSync('wxUserInfo') as {avatar:string, nickname:string}
+    console.log(getUserInfo,'信息')
     if(getUserInfo) {
       userInfo.avatar = getUserInfo.avatar
       userInfo.nickname = getUserInfo.nickname
