@@ -38,8 +38,12 @@ import { onShow } from '@dcloudio/uni-app'
           url:'/pages/upload-wxuser/index'
       })
     }else if(index === 1){
-      uni.navigateTo({
-          url:'/pages/customer-service/index'
+      // uni.navigateTo({
+      //     url:'/pages/customer-service/index'
+      // })
+      uni.showToast({
+          title:'敬请期待',
+          icon:'none'
       })
     }else if(index === 2){
       uni.navigateTo({

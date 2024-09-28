@@ -99,6 +99,15 @@ module.exports = appInfo => {
   const userConfig = {
     // myAppName: 'egg',
   };
+  config.io = {
+    init: {}, // 传递给 engine.io
+    namespace: {
+        '/': {
+            connectionMiddleware: ['connection'],
+            packetMiddleware: [],
+        }
+    }
+  };
 
   return {
     ...config,

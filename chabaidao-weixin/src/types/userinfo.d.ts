@@ -14,3 +14,12 @@ export type Address = {
     name: string
     _id: string
 }
+
+// 聊天消息类型
+export type MessageData = {
+    avatar: string
+    message: string
+    messagetype: string
+    nickname: string
+    userid: string
+}

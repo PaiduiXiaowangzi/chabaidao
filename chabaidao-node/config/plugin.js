@@ -12,8 +12,16 @@ module.exports = {
     enable: true,
     package: 'egg-validate',
   },
+  io: {
+    enable: true,
+    package: 'egg-socket.io',
+  },
   cors: {
     enable: true,
     package: 'egg-cors',
+  },
+  io: {
+    enable: true,
+    package: 'egg-socket.io',
   }
 };

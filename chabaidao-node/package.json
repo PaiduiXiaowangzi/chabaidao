@@ -16,6 +16,7 @@
     "egg-cors": "^3.0.1",
     "egg-mongoose": "^4.0.1",
     "egg-scripts": "2",
+    "egg-socket.io": "^4.1.6",
     "egg-validate": "^2.0.2",
     "jsonwebtoken": "^9.0.2",
     "pinia": "^2.2.2"

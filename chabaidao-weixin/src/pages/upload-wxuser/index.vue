@@ -19,7 +19,7 @@ import { onLoad } from '@dcloudio/uni-app'
   })
   onLoad(() => {
     let getUserInfo = uni.getStorageSync('wxUserInfo') as {avatar:string, nickname:string}
-    console.log(getUserInfo,'信息')
+    // console.log(getUserInfo,'信息')
     if(getUserInfo) {
       userInfo.avatar = getUserInfo.avatar
       userInfo.nickname = getUserInfo.nickname

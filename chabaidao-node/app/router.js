@@ -2,7 +2,7 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const { router, controller } = app;
+  const { router, controller,io } = app;
 
 // -------------------后台管理api接口---------------------
   //注册
@@ -86,4 +86,10 @@ module.exports = app => {
   router.get('/api/wx/all-order-list', app.middleware.jwt(), controller.userorder.allOrderList)
   //  小程序用户查询订单详情数据
   router.get('/api/wx/order-details', app.middleware.jwt(), controller.userorder.orderDetails)
+
+
+  // 用户发来消息
+  io.route('userMessage', io.controller.chat.userMessage)
+  // 后台管理发来消息
+  io.route('adminMessage', io.controller.chat.adminMessage)
 };
