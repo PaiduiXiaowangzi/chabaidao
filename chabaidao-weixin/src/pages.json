@@ -10,7 +10,7 @@
 		{
 			"path": "pages/ordersystem/ordersystem",
 			"style": {
-				"navigationBarTitleText": "点单",
+				"navigationBarTitleText": "菜单",
 				"navigationStyle": "custom"
 			}
 		},
@@ -56,8 +56,7 @@
 		{
 			"path": "pages/add-address/index",
 			"style": {
-				"navigationBarTitleText": "add-address",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "add-address"
 			}
 		},
 		{

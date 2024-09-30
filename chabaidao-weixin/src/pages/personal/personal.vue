@@ -29,7 +29,7 @@ import { onShow } from '@dcloudio/uni-app'
   })
   const goLogin = () => {
     uni.navigateTo({
-      url:'/pages/login/index',
+      url:'/pages/login/login',
     })
   }
   const serviceDetail = (index:number) => {

@@ -1,7 +1,7 @@
 <template>
 <view class="login-view">
   <image
-    src="https://chabaidao66.oss-cn-guangzhou.aliyuncs.com/chabaidao661726888868258954.png"
+    src=""
     mode="widthFix"
   />
   <button @click="wxLogin">一键登录</button>

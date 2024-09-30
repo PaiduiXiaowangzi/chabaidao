@@ -41,8 +41,8 @@
         </view>
         <block v-for="(item,index) in goodsData" :key="item._id">
             <button
-                v-if="item.goods_stock > 0"
-                :disabled="buttonStyle.disable"
+                v-if="item.goods_stock > 0 && goodsSkuPrice> 0"
+                :disabled="buttonStyle.disable "
                 :style="{'background-color':buttonStyle.back, 'color':buttonStyle.color}"
                 @click="addToCart()
                 "
@@ -142,6 +142,9 @@ watch(selectedStats,(newState) => {
                     const statesId = newState.map(item => item.sku.statsId)
                     const result = skuListData.value.find(sku => statesId.every(item => sku.skuId.includes(item)))
                     goodsSkuPrice.value = result?.price ?? 0
+                    if(goodsSkuPrice.value === 0) {
+
+                    }
                     sku_id.value = result?._id ?? ''
                 }else {
                     goodsSkuPrice.value = goodsSkuPrice.value
@@ -182,7 +185,7 @@ const minusQuantity = () => {
 const buttonStyle = computed(() => {
     if(goodsData.value.length > 0 && goodsData.value[0].goods_stats.length > 0) {
         const isLengthMath = selectedStats.value.length === goodsData.value[0].goods_stats.length
-        if(isLengthMath && orderQuantity.value > 0) {
+        if(isLengthMath && orderQuantity.value > 0 && goodsSkuPrice.value > 0) {
             return {
                 disable:false,
                 back:'#214bd5',
