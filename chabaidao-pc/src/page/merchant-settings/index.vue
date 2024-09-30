@@ -138,7 +138,7 @@
         placeholder="结束时间"
         start="08:30"
         step="00:15"
-        end="18:30"
+        end="22:30"
         />
         <template #footer>
         <span class="dialog-footer">

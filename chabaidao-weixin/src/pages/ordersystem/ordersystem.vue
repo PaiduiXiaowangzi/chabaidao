@@ -33,7 +33,7 @@
               </view>
               <view v-else class="select-goods single-goods">
                 <image src="/static/jian-goods.png" mode="widthFix"  @click.stop="addSingleProduct(index,index_a,item._id,item_a._id,'001')"/>
-                <text v-if="item_a.quantity > 0">{{ item_a.quantity }}</text>
+                <text v-if="item_a.quantity >= 0">{{ item_a.quantity }}</text>
                 <image src="/static/jia-goods.png" mode="widthFix" @click.stop="addSingleProduct(index,index_a,item._id,item_a._id,'002')" />
               </view>
             </block>
@@ -178,8 +178,13 @@ const rangeQuery = async (latitude:number, longitude:number) => {
 
     // 首页添加商品到购物车
     const addSingleProduct = (index:number,index_a:number,fatherId:string,sonId:string,type:string) =>{
-      if(type == '001' && allGoods.value[index].category[index_a].quantity > 0){
-        allGoods.value[index].category[index_a].quantity--
+      if(type == '001'){
+        if(allGoods.value[index].category[index_a].quantity > 0){
+          allGoods.value[index].category[index_a].quantity--
+          cartStore.removeEmptyArrays()
+        }else{
+          allGoods.value[index].category[index_a].quantity = 0
+        }
       }else{
         allGoods.value[index].category[index_a].quantity++
       }

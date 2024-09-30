@@ -77,12 +77,6 @@
 			"style": {
 				"navigationBarTitleText": "order-details"
 			}
-		},
-		{
-			"path": "pages/customer-service/index",
-			"style": {
-				"navigationBarTitleText": "customer-service"
-			}
 		}
 	],
 	"globalStyle": {

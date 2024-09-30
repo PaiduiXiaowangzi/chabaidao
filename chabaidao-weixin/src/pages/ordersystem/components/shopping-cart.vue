@@ -1,32 +1,25 @@
 <template>
-    <!-- 底部购物车 -->
-    <view class="to-checkout" v-if="cartData.paymentPrice > 0">
-      <view class="product-quantity" @click="showCart = true">
-        <text>{{ cartData.getCartCount }}</text>
-        <image src="/static/gouwuche.png" mode="widthFix"/>
-      </view>
-      <view class="checkout-price">合计¥{{ cartData.paymentPrice }}</view>
-      <button @click="gotoResult" v-if="pagePlaceOrder().orderType == '001'">去结算</button>
-      <button 
-        @click="gotoResult" 
-        v-else 
-        :disabled="cartData.paymentPrice < MerchanInfo().initialPrice"
-      >
-        {{ cartData.paymentPrice >= MerchanInfo().initialPrice ? '去结算' : `差¥${liftingPrice}起送` }}
-      </button>
+  <!-- 底部购物车 -->
+  <view class="to-checkout" v-if="cartStore.paymentPrice > 0">
+    <view class="product-quantity" @click="showCart = true">
+      <text>{{ cartStore.getCartCount }}</text>
+      <image src="/static/gouwuche.png" mode="widthFix"/>
     </view>
-  
+    <view class="checkout-price">合计¥{{ cartStore.paymentPrice }}</view>
+    <button @click="gotoResult" v-if="pagePlaceOrder().orderType == '001'">去结算</button>
+    <button @click="gotoResult" v-else :disabled="cartStore.paymentPrice >= MerchanInfo().initialPrice ? false : true">
+      {{ cartStore.paymentPrice >= MerchanInfo().initialPrice ? '去结算' : `差¥${liftingPrice}起送` }}
+    </button>
+  </view>
   <!-- 遮罩层 -->
   <view class="popup-cart" v-show="showCart" @click="showCart = false"></view>
-    
-    <!-- 购物车里的详细商品 -->
-    <view class="cart-shadow" v-show="showCart">
-      <view class="delete-cart">
-        <image src="/static/shanchu.png" mode="widthFix" @click="deleteGoods"/>
-      </view>
-  
-      <!-- 每一个商品 -->
-      <view class="item-cart-goods" v-for="(item,index) in cartData.cartItems" :key="index">
+  <!-- 购物车里的详细商品 -->
+  <view class="cart-shadow" v-show="showCart">
+    <view class="delete-cart">
+      <image src="/static/shanchu.png" mode="widthFix" @click="deleteGoods"/>
+    </view>
+    <!-- 每一个商品 -->
+    <view class="item-cart-goods" v-for="(item,index) in cartStore.cartItems" :key="index">
       <image class="item-goods-img" :src="item.goods_image" mode="aspectFill"/>
       <view class="item-goods-speci">
         <text>{{ item.goods_name }}</text>
@@ -39,103 +32,73 @@
         <image src="/static/jia-goods.png" mode="widthFix" @click="addQuantity(index)"/>
       </view>
     </view>
-    </view>
-      <!-- 是否打样 -->
-    <view class="close-up-shop" v-if="closeTime">嘿嘿嘿,打烊了,营业时间为{{ MerchanInfo().businessHours[1] }} ~ {{ MerchanInfo().businessHours[1] }}</view>
-  </template>
-  
-  <script setup lang="ts">
-  import { computed, ref, watch } from 'vue'
-  import { onLoad } from '@dcloudio/uni-app'
-  import { getCartStatus, pagePlaceOrder } from '@/store/index'
-  import { MerchanInfo } from '@/api/menubutton'
-  import { Decimal } from 'decimal.js'
-  import moment from 'moment'
-  // 判断是否打样
-  const closeTime = ref(false)
-  onLoad(() => {
-    console.log(MerchanInfo().businessHours[0],MerchanInfo().businessHours[1])
-    const openTime = moment(MerchanInfo().businessHours[0],'HH:mm')
-    const closingTime = moment(MerchanInfo().businessHours[1],'HH:mm')
-    const is = moment().isBetween(openTime, closingTime,undefined,'[]')
-    closeTime.value = is ? false : true
-  })
-  
-  const cartStore = getCartStatus()
-  
+  </view>
+  <!-- 是否打烊 -->
+   <view class="close-up-shop" v-if="false">店铺已打烊  营业时间{{ MerchanInfo().businessHours.join('-') }}</view>
+</template>
 
-  const cartData = computed(() => {
-    return {
-      getCartCount: cartStore.getCartCount, // 购物车数量
-      paymentPrice: cartStore.paymentPrice, // 购物车支付总价
-      cartItems: cartStore.cartItems, // 购物车里的商品
+<script setup lang='ts'>
+    import {ref,computed,watch} from 'vue'
+    import {onLoad} from '@dcloudio/uni-app'
+    import {getCartStatus,pagePlaceOrder} from '@/store/index'
+    const cartStore = getCartStatus()
+    import {MerchanInfo} from '@/api/menubutton'
+    import Decimal from 'decimal.js';
+    import moment from 'moment'
+    moment.locale('zh-cn')
+
+    // 购物车的显示和隐藏
+    const showCart = ref(false)
+    // 清空购物车里的数据
+    const deleteGoods = () => {
+      cartStore.cartItems = []
+      showCart.value = false
     }
-  })
-
-  watch(
-  () => cartStore.cartItems,
-  (newVal) => {
-    // 移除数量为 0 的商品
-    cartStore.removeEmptyArrays();
-    
-    // 如果购物车为空，并且之前没有调用 deleteGoods()
-    if (cartStore.cartItems.length <= 0 && !showCart.value) {
-      deleteGoods();
-    }
-  },
-  { deep: true }
-)
-
-//   是否显示购物车
-  const showCart = ref<boolean>(false)
-  
-  // 删除所有商品
-  const deleteGoods = () => {
-    cartStore.cartItems = []
-    showCart.value = false
-  }
-  
-  // 跳转到结算页面
-  const gotoResult = () => {
-    uni.navigateTo({
-      url: '/pages/payment/index'
-    })
-  }
-  
-  // 计算还差多少钱起送
-  const liftingPrice = computed(()=>{
-      const num1 = new Decimal(MerchanInfo().initialPrice)
-      const num2 = new Decimal(cartData.value.paymentPrice)
-      return Number(num1.minus(num2).toString())
-    })
-  
-  // 减少商品数量
-  const minusQuantity = (index: number) => {
-    if (cartStore.cartItems[index].goodsQuantity > 0) {
-      cartStore.$patch((val) => {
-        if(val.cartItems[index].goodsQuantity > 0){
+    // 减数量
+    function minusQuantity(index:number){
+      cartStore.$patch(val=>{
+        if(val.cartItems[index].goodsQuantity >= 1){
           val.cartItems[index].goodsQuantity--
+          cartStore.removeEmptyArrays()
+          if(!cartStore.cartItems.length) {
+            showCart.value = false
+          }
         }
-        val.cartItems[index].totalPrice = new Decimal(val.cartItems[index].goodsQuantity).times(val.cartItems[index].goodsPrice).toNumber()
+        // if(val.cartItems[index] && val.cartItems[index].goodsQuantity < 1) cartStore.removeEmptyArrays()
+        val.cartItems[index].totalPrice = val.cartItems[index].goodsQuantity * val.cartItems[index].goodsPrice
       })
     }
-  }
-  
-  // 增加商品数量
-  const addQuantity = (index: number) => {
-    console.log(liftingPrice.value)
-    console.log(MerchanInfo().initialPrice)
-    cartStore.$patch((val) => {
-      val.cartItems[index].goodsQuantity++
-      val.cartItems[index].totalPrice = new Decimal(val.cartItems[index].goodsQuantity).times(val.cartItems[index].goodsPrice).toNumber()
+    // 加数量
+    function addQuantity(index:number){
+      cartStore.$patch(val=>{
+        val.cartItems[index].goodsQuantity++
+        val.cartItems[index].totalPrice = val.cartItems[index].goodsQuantity * val.cartItems[index].goodsPrice
+      })
+    }
+    // 外卖差多少起送
+    const liftingPrice = computed(()=>{
+      const num1 = new Decimal(MerchanInfo().initialPrice)
+      const num2 = new Decimal(cartStore.paymentPrice)
+      return Number(num1.minus(num2).toString())
     })
-  }
+    // 查看是否打烊
+    const closeTime = ref(false)
+    onLoad(()=>{
+      const openingTime = moment(MerchanInfo().businessHours[0],'HH:mm')
+      const closingTime = moment(MerchanInfo().businessHours[1],'HH:mm')
+      const is = moment().isBetween(openingTime,closingTime,undefined,'[]')
+      closeTime.value = is ? false : true
+    })
+    // 去结算
+    function gotoResult(){
+      uni.navigateTo({
+        url:'/pages/payment/index'
+      })
+    }
+</script>
 
-
-
-  </script>
-<style >
-     /* 底部购物车 */
+<style>
+    /* 底部购物车 */
 .to-checkout{
   height: 110rpx;
   display: flex;
@@ -260,4 +223,3 @@
   z-index: 999;
 }
 </style>
-  

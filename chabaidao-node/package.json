@@ -29,7 +29,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --sticky  --title=egg-server-chabaidao",
+    "start": "egg-scripts start --sticky   --title=egg-server-chabaidao",
     "stop": "egg-scripts stop --title=egg-server-chabaidao",
     "dev": "egg-bin dev",
     "test": "npm run lint -- --fix && npm run test:local",

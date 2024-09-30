@@ -75,6 +75,13 @@ module.exports = appInfo => {
     secret: 'wgdgfhguvjkdhgfy46757',
     expiresIn: 60 * 60 * 24 * 3
   }
+  config.cluster = {
+    listen: {
+      path: '',
+      port: 7001, // 确保和 Nginx 的 proxy_pass 指向的端口一致
+      hostname: '0.0.0.0', // 监听所有网络接口
+    },
+  }
   // 跨域
   config.cors = {
     origin: '*',
