@@ -2,6 +2,7 @@
   "name": "uni-preset-vue",
   "version": "0.0.0",
   "scripts": {
+    "commit": "cz",
     "dev:app": "uni -p app",
     "dev:app-android": "uni -p app-android",
     "dev:app-ios": "uni -p app-ios",
@@ -40,7 +41,8 @@
     "build:quickapp-webview": "uni build -p quickapp-webview",
     "build:quickapp-webview-huawei": "uni build -p quickapp-webview-huawei",
     "build:quickapp-webview-union": "uni build -p quickapp-webview-union",
-    "type-check": "vue-tsc --noEmit"
+    "type-check": "vue-tsc --noEmit",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-4020420240722002",
@@ -82,5 +84,11 @@
     "typescript-eslint": "^8.8.1",
     "vite": "^5.2.8",
     "vue-tsc": "^1.8.24"
+  },
+  "config": {
+      "commitizen": {
+        "path": "./node_modules/cz-conventional-changelog"
+      }
   }
+  
 }
