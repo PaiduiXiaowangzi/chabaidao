@@ -110,8 +110,10 @@ const locationHint = () => {
 // 计算距离
 const merchantDistance = ref({distance:''})
 const rangeQuery = async (latitude:number, longitude:number) => {
+  console.log('la:',latitude,'lo:',longitude)
   const res = await request<Distance>('/distance-calculator',{latitude,longitude})
   merchantDistance.value.distance = res.data.distance
+  console.log(merchantDistance.value.distance,'diatance!!!!!')
 }
 
   // 获取所有分类和商品
@@ -253,7 +255,7 @@ const rangeQuery = async (latitude:number, longitude:number) => {
 
     import { pageGoodsId } from '@/store/index'
     // 监听此页面是否为首页轮播图跳转而来，如果是，再次跳转到商品详情
-    watch([() => pageGoodsId().goodsId,allGoods,allGoods],([goodsId,goods]) => {
+    watch([() => pageGoodsId().goodsId,allGoods],([goodsId,goods]) => {
       if(goodsId.length > 0 && goods.length > 0) {
         const parentIndex = allGoods.value.findIndex(item => item._id === goodsId[0].categoryId)
         if(parentIndex >= 0) {

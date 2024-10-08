@@ -21,7 +21,7 @@
 	<div>
 		<audio src="https://diancan-1252107261.cos.accelerate.myqcloud.com/kecheng-chabaidao/mp3/tishi.mp3" ref="audio"></audio>
 	</div>
-    <router-view></router-view>
+    <router-view></router-view> 
 </template>
 
 <script setup>

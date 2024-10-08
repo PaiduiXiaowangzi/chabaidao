@@ -1,7 +1,7 @@
 <template>
     <div id="login-view">
         <div class="login-region">
-            <div class="login-input login-title">茶百道商家中心</div>
+            <div class="login-input login-title">奶茶在线商家中心</div>
             <div class="login-input">
                 <el-input placeholder="商家手机号" v-model="mobile" clearable/>
             </div>

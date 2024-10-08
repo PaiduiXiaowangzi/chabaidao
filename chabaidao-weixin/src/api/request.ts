@@ -1,4 +1,4 @@
-export const BaseUrl:string = 'http://127.0.0.1:7001'
+export const BaseUrl:string = ' http://127.0.0.1:7001'
 const requestAddress:string = BaseUrl + '/api/wx'
 
 export const uploadFileUrl:string = BaseUrl + '/api/admin/uploadFile'

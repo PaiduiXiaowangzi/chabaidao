@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Base64 } from 'js-base64';
 import { ElMessage } from 'element-plus'
 
-export const domain = ' http://127.0.0.1:7001'
+export const domain = 'http://127.0.0.1:7001'
 const baseURL = domain + '/api/admin'
 const http = axios.create({
 	baseURL, // 设置请求的基础

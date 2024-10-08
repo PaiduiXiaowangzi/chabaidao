@@ -54,6 +54,7 @@ withDefaults(
     distance:'0米'
   }
 )
+// console.log(distance.value)
 </script>
 
 <style>

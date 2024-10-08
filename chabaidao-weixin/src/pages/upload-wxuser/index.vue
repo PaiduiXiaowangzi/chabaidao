@@ -41,12 +41,12 @@ import { onLoad } from '@dcloudio/uni-app'
               userInfo.avatar = imgUrl.data
           },
           fail:uploadErr=>{
-              uni.showToast({title: '上传失败'});
+              uni.showToast({title: '上传失败',icon:'none'});
           }
         })
       },
       fail:err=>{
-          uni.showToast({title: '上传失败'});
+          uni.showToast({title: '上传失败',icon:'error'});
       }
     })
   }

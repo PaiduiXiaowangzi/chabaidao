@@ -75,7 +75,11 @@
     "@dcloudio/vite-plugin-uni": "3.0.0-4020420240722002",
     "@vue/runtime-core": "^3.3.9",
     "@vue/tsconfig": "^0.4.0",
+    "eslint": "^9.12.0",
+    "eslint-plugin-vue": "^9.28.0",
+    "globals": "^15.10.0",
     "typescript": "^5.3.2",
+    "typescript-eslint": "^8.8.1",
     "vite": "^5.2.8",
     "vue-tsc": "^1.8.24"
   }
