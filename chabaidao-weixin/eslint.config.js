@@ -8,6 +8,8 @@ export default [
     files: ["**/*.{js,mjs,cjs,ts,vue}"],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off', // 关闭 no-explicit-any 规则
+      '@typescript-eslint/no-unused-expressions': 'off',
+      'no-unused-expressions': 'off',
     },
   },
   {languageOptions: { globals: globals.browser }},
