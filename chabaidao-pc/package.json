@@ -18,8 +18,12 @@
     "vue-socket.io": "^3.0.10"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.5.1",
-    "vite": "^5.0.4",
-    "vite-plugin-commonjs": "^0.10.1"
+    "@vitejs/plugin-vue": "^4.6.2",
+    "terser": "^5.34.1",
+    "vite": "^5.4.8",
+    "vite-imagetools": "^7.0.4",
+    "vite-plugin-commonjs": "^0.10.3",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-html": "^3.2.2"
   }
 }
